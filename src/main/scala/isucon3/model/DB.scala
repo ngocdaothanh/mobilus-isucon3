@@ -156,18 +156,7 @@ object DB extends Logger {
       s.executeUpdate()
 
       r = s.getGeneratedKeys()
-      if (r.next()) {
-        import isucon3.action._
-        xitrum.Cache.removeAction(classOf[Index])
-        xitrum.Cache.removeAction(classOf[MyPage])
-        xitrum.Cache.removeAction(classOf[Recent])
-        xitrum.Cache.removeAction(classOf[ShowMemo])
-        xitrum.Cache.removeAction(classOf[Signin])
-
-        r.getInt(1)
-      } else {
-        0
-      }
+      if (r.next()) r.getInt(1) else 0
     } catch {
       case NonFatal(e) =>
         logger.error("addMemo", e)

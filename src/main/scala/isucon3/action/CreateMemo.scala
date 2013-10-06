@@ -1,6 +1,6 @@
 package isucon3.action
 
-import xitrum.Action
+import xitrum.{Action, Cache}
 import xitrum.annotation.POST
 
 import isucon3.model.DB
@@ -16,6 +16,13 @@ class CreateMemo extends DefaultLayout with RequireUser with AntiCsrf {
         false
 
     val memoId = DB.addMemo(memoSession.user.get, content, isPrivate)
+
+    Cache.removeAction(classOf[Index])
+    Cache.removeAction(classOf[MyPage])
+    Cache.removeAction(classOf[Recent])
+    Cache.removeAction(classOf[ShowMemo])
+    Cache.removeAction(classOf[Signin])
+
     redirectTo[ShowMemo]("memoId" -> memoId)
   }
 }
