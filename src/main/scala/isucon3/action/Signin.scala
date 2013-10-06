@@ -7,6 +7,7 @@ import isucon3.model.{DB, Sha}
 import isucon3.view.SigninView
 
 @GET("signin")
+@xitrum.annotation.CacheActionDay(1)
 class Signin extends DefaultLayout {
   def execute() {
     respondInlineView(SigninView.render(this))

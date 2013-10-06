@@ -7,6 +7,7 @@ import isucon3.model.DB
 import isucon3.view.IndexView
 
 @GET("recent/:page")
+@xitrum.annotation.CacheActionDay(1)
 class Recent extends DefaultLayout {
   def execute() {
     val page  = param[Int]("page")

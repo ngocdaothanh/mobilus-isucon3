@@ -7,6 +7,7 @@ import isucon3.model.DB
 import isucon3.view.ShowMemoView
 
 @GET("memo/:memoId")
+@xitrum.annotation.CacheActionDay(1)
 class ShowMemo extends DefaultLayout {
   def execute() {
     val memoId = param[Int]("memoId")

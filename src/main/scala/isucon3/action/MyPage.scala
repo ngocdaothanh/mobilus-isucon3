@@ -6,6 +6,7 @@ import isucon3.model.DB
 import isucon3.view.MyPageView
 
 @GET("mypage")
+@xitrum.annotation.CacheActionDay(1)
 class MyPage extends DefaultLayout with RequireUser {
   def execute() {
     val memos = DB.getMyMemos(memoSession.user.get.id)
