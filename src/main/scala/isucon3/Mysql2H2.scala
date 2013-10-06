@@ -84,7 +84,7 @@ object Mysql2H2 {
       val salt        = r.getString("salt")
       val last_access = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(r.getDate("last_access")).toString()
 
-      var ps = h2.prepareStatement("INSERT INTO users(id, username, password, password, password)VALUES(?,?,?,?,?)")
+      var ps = h2.prepareStatement("INSERT INTO users(id, username, password, salt, last_access) VALUES (?,?,?,?,?)")
       ps.setInt(1, id)
       ps.setString(2, username)
       ps.setString(3, password)
