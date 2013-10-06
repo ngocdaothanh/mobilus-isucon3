@@ -1,6 +1,3 @@
-// Import xsbt-scalate-generator keys; this must be at top of build.sbt, or SBT will complain
-import ScalateKeys._
-
 organization := "tv.cntt"
 
 name         := "mobilus-isucon3"
