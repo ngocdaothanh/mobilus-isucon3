@@ -43,7 +43,7 @@ html(
                   ),
                   li(
                     form.action(action.absUrl[Signout]).attr("method" -> "post")(
-                      input.attr("type" -> "hiden", "name" -> "sid", "value" -> session.token),
+                      input.attr("type" -> "hidden", "name" -> "sid", "value" -> session.token),
                       input.attr("type" -> "submit", "value" -> "SignOut")
                     )
                   )
