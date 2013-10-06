@@ -15,7 +15,7 @@ p.id("pager")(
 ul.id("memos")(
   for (memo <- memos) yield
     li(
-      a.href(action.url[ShowMemo]("memoId" -> memo.id))(memo.title), " by ", memo.username, "(", memo.createdAt, ")"
+      a.href(action.url[ShowMemo]("memoId" -> memo.id))(memo.title), " by ", memo.username, " (", memo.createdAt, ")"
     )
 ))
 }
