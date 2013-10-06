@@ -4,3 +4,7 @@ project/project
 project/target
 routes.cache
 target
+
+db.h2.db
+db.lock.db
+db.trace.db
