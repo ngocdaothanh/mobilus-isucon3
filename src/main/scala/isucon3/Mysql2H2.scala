@@ -22,6 +22,7 @@ object Mysql2H2 {
 
     resetH2(h2)
     convertMemos(my, h2)
+    convertUsers(my, h2)
 
     h2.close()
     my.close()
@@ -66,14 +67,14 @@ object Mysql2H2 {
       ps.setString(6, updated_at)
       ps.setInt(7, user)
       ps.setString(8, username)
-      ps.execute()
+      ps.executeUpdate()
       ps.close()
     }
     s.close()
     s2.close()
   }
 
-  def convertUsers(h2: Connection, my: Connection) {
+  def convertUsers(my: Connection, h2: Connection) {
     var s = my.createStatement()
     var s2 = h2.createStatement()
     val r = s.executeQuery("SELECT * FROM users ORDER BY id")
@@ -90,7 +91,7 @@ object Mysql2H2 {
       ps.setString(3, password)
       ps.setString(4, salt)
       ps.setString(5, last_access)
-      ps.execute()
+      ps.executeUpdate()
       ps.close()
     }
     s.close()
