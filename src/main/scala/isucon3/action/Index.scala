@@ -9,7 +9,7 @@ import isucon3.view.IndexView
 class Index extends DefaultLayout {
   def execute() {
     val total = DB.countPublicMemos()
-    val memos = DB.getRecentPublicMemos()
+    val memos = DB.getRecentPublicMemos(0)
     respondInlineView(IndexView.render(this, 0, total, memos))
   }
 }

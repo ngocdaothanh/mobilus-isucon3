@@ -1,5 +1,6 @@
 package isucon3.action
 
+import org.jboss.netty.handler.codec.http.HttpResponseStatus
 import xitrum.Action
 
 import isucon3.model.User
@@ -28,5 +29,28 @@ trait DefaultLayout extends Action {
         session("memoSession") = ret
         ret
     }
+  }
+}
+
+trait RequireUser {
+  this: DefaultLayout =>
+
+  beforeFilter {
+    val ret = memoSession.user.isDefined
+    if (!ret) redirectTo[Index]()
+    ret
+  }
+}
+
+trait AntiCsrf {
+  this: DefaultLayout =>
+
+  beforeFilter {
+    val ret = bodyParams.contains("sid") && memoSession.token == param("sid")
+    if (!ret) {
+      response.setStatus(HttpResponseStatus.NOT_FOUND)
+      respondText("400 Bad Request")
+    }
+    ret
   }
 }

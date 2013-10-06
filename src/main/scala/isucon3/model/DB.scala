@@ -67,14 +67,18 @@ object DB extends Logger {
     }
   }
 
-  def getRecentPublicMemos(): Seq[Memo] = {
+  def getRecentPublicMemos(page: Int): Seq[Memo] = {
     var con: Connection = null
     var s:   Statement  = null
     var r:   ResultSet  = null
     try {
       con = cp.getConnection()
       s   = con.createStatement()
-      r   = s.executeQuery("SELECT * FROM memos WHERE is_private=0 ORDER BY created_at DESC, id DESC LIMIT 100")
+      r   =
+        if (page <= 0)
+          s.executeQuery("SELECT * FROM memos WHERE is_private=0 ORDER BY id DESC LIMIT 100")
+        else
+          s.executeQuery("SELECT * FROM memos WHERE is_private=0 ORDER BY id DESC LIMIT 100 OFFSET " + (page * 100))
 
       val ret = ArrayBuffer[Memo]()
       while (r.next()) {

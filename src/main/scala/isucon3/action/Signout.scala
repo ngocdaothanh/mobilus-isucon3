@@ -4,8 +4,9 @@ import xitrum.Action
 import xitrum.annotation.POST
 
 @POST("signout")
-class Signout extends Action {
+class Signout extends DefaultLayout with RequireUser with AntiCsrf {
   def execute() {
-    respondView()
+    session.clear()
+    redirectTo[Index]()
   }
 }
