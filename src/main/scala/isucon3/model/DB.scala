@@ -26,6 +26,7 @@ object DB extends Logger {
         val salt       = r.getString("salt")
 
         if (dbPassword == Sha.hash256(salt) + password) {
+          updateUserLastAccess(id)
           Some(User(id, username))
         } else {
           None
@@ -37,6 +38,24 @@ object DB extends Logger {
       case NonFatal(e) =>
         logger.error("signin", e)
         None
+    } finally {
+      if (s != null) s.close()
+      if (r != null) r.close()
+      if (con != null) con.close()
+    }
+  }
+
+  private def updateUserLastAccess(userId: Int) {
+    var con: Connection = null
+    var s:   Statement  = null
+    var r:   ResultSet  = null
+    try {
+      con = cp.getConnection()
+      s   = con.createStatement()
+      r   = s.executeQuery("UPDATE users SET last_access=now() WHERE id=" + userId)
+    } catch {
+      case NonFatal(e) =>
+        logger.error("updateUserLastAccess", e)
     } finally {
       if (s != null) s.close()
       if (r != null) r.close()

@@ -10,7 +10,7 @@ object Sha {
     bytesToHex(md.digest())
   }
 
-  def bytesToHex(bytes: Array[Byte]) = {
+  private def bytesToHex(bytes: Array[Byte]) = {
     val result = new StringBuffer
     for (byt <- bytes) result.append(Integer.toString((byt & 0xff) + 0x100, 16).substring(1))
     result.toString
