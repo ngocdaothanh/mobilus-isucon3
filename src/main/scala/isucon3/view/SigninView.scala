@@ -2,6 +2,7 @@ package isucon3.view
 
 import scalatags._
 import xitrum.Action
+
 import isucon3.action.DoSignin
 
 object SigninView {
