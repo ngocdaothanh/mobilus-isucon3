@@ -1,5 +1,6 @@
 package isucon3.view
 
+import scala.xml.Unparsed
 import scalatags._
 import xitrum.Action
 
@@ -27,6 +28,6 @@ else
 ,
 
 hr,
-div.id("content_html")(memo.contentHtml)
+div.id("content_html")(Unparsed(memo.contentHtml))
   )
 }

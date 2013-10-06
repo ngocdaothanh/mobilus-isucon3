@@ -196,7 +196,7 @@ object DB extends Logger {
     try {
       con = getConnection()
       s   = con.createStatement()
-      r   = s.executeQuery("SELECT * FROM memos WHERE user = " + uid + " id < " + memoId + " ORDER BY id LIMIT 1")
+      r   = s.executeQuery("SELECT * FROM memos WHERE user = " + uid + " AND id < " + memoId + " ORDER BY id LIMIT 1")
       extractMemos(r).headOption.map(_.id)
     } catch {
       case NonFatal(e) =>
@@ -216,7 +216,7 @@ object DB extends Logger {
     try {
       con = getConnection()
       s   = con.createStatement()
-      r   = s.executeQuery("SELECT * FROM memos WHERE user = " + uid + " id > " + memoId + " ORDER BY id LIMIT 1")
+      r   = s.executeQuery("SELECT * FROM memos WHERE user = " + uid + " AND id > " + memoId + " ORDER BY id LIMIT 1")
       extractMemos(r).headOption.map(_.id)
     } catch {
       case NonFatal(e) =>

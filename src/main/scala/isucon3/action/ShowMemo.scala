@@ -23,10 +23,8 @@ class ShowMemo extends DefaultLayout {
         }
 
         val prev = DB.getPrevMemoId(memo.uid, memoId)
-        val next = DB.getPrevMemoId(memo.uid, memoId)
+        val next = DB.getNextMemoId(memo.uid, memoId)
         respondInlineView(ShowMemoView.render(this, memo, prev, next))
     }
-
-    respondView()
   }
 }
