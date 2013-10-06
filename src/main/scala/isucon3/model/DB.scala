@@ -1,6 +1,6 @@
 package isucon3.model
 
-import java.sql.{Connection, PreparedStatement, ResultSet, Statement}
+import java.sql.{Connection, PreparedStatement, ResultSet, Statement, Timestamp}
 import scala.util.control.NonFatal
 import scala.collection.mutable.ArrayBuffer
 
@@ -38,24 +38,6 @@ object DB extends Logger {
       case NonFatal(e) =>
         logger.error("signin", e)
         None
-    } finally {
-      if (s != null) s.close()
-      if (r != null) r.close()
-      if (con != null) con.close()
-    }
-  }
-
-  private def updateUserLastAccess(userId: Int) {
-    var con: Connection = null
-    var s:   Statement  = null
-    var r:   ResultSet  = null
-    try {
-      con = cp.getConnection()
-      s   = con.createStatement()
-      r   = s.executeQuery("UPDATE users SET last_access=now() WHERE id=" + userId)
-    } catch {
-      case NonFatal(e) =>
-        logger.error("updateUserLastAccess", e)
     } finally {
       if (s != null) s.close()
       if (r != null) r.close()
@@ -127,6 +109,56 @@ object DB extends Logger {
     } finally {
       if (s != null) s.close()
       if (r != null) r.close()
+      if (con != null) con.close()
+    }
+  }
+
+  def addMemo(user: User, content: String, isPrivate: Boolean): Int = {
+    var con: Connection         = null
+    var s:   PreparedStatement  = null
+    var r:   ResultSet          = null
+    try {
+      val title = "TODO"
+      val contentHtml = "TODO"
+
+      con = cp.getConnection()
+      s   = con.prepareStatement("INSERT INTO memos (user, username, title, content, is_private, created_at) VALUES (?, ?, ?, ?, ?, ?)")
+      s.setInt      (1, user.id)
+      s.setString   (2, user.username)
+      s.setString   (3, title)
+      s.setString   (4, contentHtml)
+      s.setInt      (5, if (isPrivate) 1 else 0)
+      s.setTimestamp(6, new Timestamp(System.currentTimeMillis()))
+
+      s.executeUpdate()
+
+      r = s.getGeneratedKeys()
+      if (r.next()) r.getInt(1) else 0
+    } catch {
+      case NonFatal(e) =>
+        logger.error("addMemo", e)
+        0
+    } finally {
+      if (s != null) s.close()
+      if (r != null) r.close()
+      if (con != null) con.close()
+    }
+  }
+
+  //----------------------------------------------------------------------------
+
+  private def updateUserLastAccess(userId: Int) {
+    var con: Connection = null
+    var s:   Statement  = null
+    try {
+      con = cp.getConnection()
+      s   = con.createStatement()
+      s.executeUpdate("UPDATE users SET last_access=now() WHERE id=" + userId)
+    } catch {
+      case NonFatal(e) =>
+        logger.error("updateUserLastAccess", e)
+    } finally {
+      if (s != null) s.close()
       if (con != null) con.close()
     }
   }
