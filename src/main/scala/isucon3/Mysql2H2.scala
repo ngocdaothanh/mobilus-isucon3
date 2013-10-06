@@ -79,7 +79,7 @@ object Mysql2H2 {
     val r = s.executeQuery("SELECT * FROM users ORDER BY id")
     while (r.next()) {
       val id          = r.getInt("id")
-      val username    = r.getString("user")
+      val username    = r.getString("username")
       val password    = r.getString("password")
       val salt        = r.getString("salt")
       val last_access = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(r.getDate("last_access")).toString()
