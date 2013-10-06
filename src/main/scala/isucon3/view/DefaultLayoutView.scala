@@ -6,10 +6,12 @@ import xitrum.Action
 
 import isucon3.action._
 import isucon3.model.User
-import isucon3.model.Session
 
 object DefaultLayoutView {
-  def render(action: Action, user: Option[User], session: Session) = Seq(
+  def render(action: Action, session: MemoSession) = {
+    val user = session.user
+
+    Seq(
 html(
   head(
     meta.attr("http-equiv" -> "Content-Type", "content" -> "text/html", "charset" -> "utf-8"),
@@ -64,4 +66,5 @@ html(
     script.attr("type" -> "text/javascript", "src" -> action.publicUrl("js/bootstrap.min.js"))
   )
 ))
+  }
 }
