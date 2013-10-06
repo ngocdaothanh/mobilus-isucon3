@@ -23,6 +23,8 @@ libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.0.13"
 
 libraryDependencies += "com.scalatags" %% "scalatags" % "0.1.4"
 
+libraryDependencies += "com.h2database" % "h2" % "1.3.173"
+
 // xgettext i18n translation key string extractor is a compiler plugin ---------
 
 autoCompilerPlugins := true
