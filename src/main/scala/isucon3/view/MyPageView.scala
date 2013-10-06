@@ -8,7 +8,7 @@ import isucon3.model.Memo
 
 object MyPageView {
   def render(action: Action, memoSession: MemoSession, memos: Seq[Memo]) = Seq(
-form.action(action.url[CreateMemo]).attr("method" -> "post")(
+form.action(action.absUrl[CreateMemo]).attr("method" -> "post")(
   input.attr("type" -> "hidden", "name" -> "sid", "value" -> memoSession.token),
   textarea.name("content"),
   br,
@@ -21,7 +21,7 @@ h3("my memos"),
 ul(
   for (memo <- memos) yield
     li(
-      a.href(action.url[ShowMemo]("memoId" -> memo.id))(memo.title), memo.createdAt,
+      a.href(action.absUrl[ShowMemo]("memoId" -> memo.id))(memo.title), memo.createdAt,
       if (memo.isPrivate) "[private]" else ""
     )
 ))
