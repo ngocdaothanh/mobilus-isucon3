@@ -99,16 +99,7 @@ object DB extends Logger {
         else
           s.executeQuery("SELECT * FROM memos WHERE is_private=0 ORDER BY id DESC LIMIT 100 OFFSET " + (page * 100))
 
-      val ret = ArrayBuffer[Memo]()
-      while (r.next()) {
-        val id          = r.getInt("id")
-        val username    = r.getString("username")
-        val title       = r.getString("title")
-        val contentHtml = r.getString("content")
-        val createdAt   = r.getTime("created_at").toString
-        ret.append(Memo(id, username, false, title, contentHtml, createdAt))
-      }
-      ret
+      extractMemos(r)
     } catch {
       case NonFatal(e) =>
         logger.error("getRecentPublicMemos", e)
@@ -118,5 +109,38 @@ object DB extends Logger {
       if (r != null) r.close()
       if (con != null) con.close()
     }
+  }
+
+  def getMyMemos(userId: Int): Seq[Memo] = {
+    var con: Connection = null
+    var s:   Statement  = null
+    var r:   ResultSet  = null
+    try {
+      con = cp.getConnection()
+      s   = con.createStatement()
+      r   = s.executeQuery("SELECT * FROM memos WHERE user=" + userId + " ORDER BY id DESC")
+      extractMemos(r)
+    } catch {
+      case NonFatal(e) =>
+        logger.error("getMyMemos", e)
+        null
+    } finally {
+      if (s != null) s.close()
+      if (r != null) r.close()
+      if (con != null) con.close()
+    }
+  }
+
+  private def extractMemos(r: ResultSet): Seq[Memo] = {
+    val ret = ArrayBuffer[Memo]()
+    while (r.next()) {
+      val id          = r.getInt("id")
+      val username    = r.getString("username")
+      val title       = r.getString("title")
+      val contentHtml = r.getString("content")
+      val createdAt   = r.getTime("created_at").toString
+      ret.append(Memo(id, username, false, title, contentHtml, createdAt))
+    }
+    ret
   }
 }
