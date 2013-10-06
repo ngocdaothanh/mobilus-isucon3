@@ -10,7 +10,7 @@ object IndexView {
   def render(action: Action, page: Int, total: Int, memos: Seq[Memo]) = Seq(
 h3("public memos"),
 p.id("pager")(
-  "recent", (page * 100 + 1).toString, " - ", (page * 100 + 100).toString, "/", "total ", span.id("total")(total.toString)
+  "recent ", (page * 100 + 1).toString, " - ", (page * 100 + 100).toString, "/", "total ", span.id("total")(total.toString)
 ),
 ul.id("memos")(
   for (memo <- memos) yield
