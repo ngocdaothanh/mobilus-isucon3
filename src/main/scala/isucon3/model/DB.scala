@@ -11,37 +11,43 @@ import org.h2.jdbcx.JdbcConnectionPool
 import xitrum.Logger
 
 object DB extends Logger {
-  val cp = JdbcConnectionPool.create("jdbc:h2:./db", "sa", "sa")
+  var cp = JdbcConnectionPool.create("jdbc:h2:./db", "sa", "sa")
+
+  def reset(): Unit = synchronized {
+    cp.dispose()
+
+    import scala.sys.process._
+    Process("cp db.h2.db_benchmark db.h2.db").!
+
+    cp = JdbcConnectionPool.create("jdbc:h2:./db", "sa", "sa")
+  }
+
+  def getConnection() = synchronized {
+    cp.getConnection()
+  }
 
   def signin(username: String, password: String): Option[User] = {
     var con: Connection        = null
     var s:   PreparedStatement = null
     var r:   ResultSet         = null
     try {
-      con = cp.getConnection()
+      con = getConnection()
       s   = con.prepareStatement("SELECT id, password, salt FROM users WHERE username=? LIMIT 1")
       s.setString(1, username)
 
       r = s.executeQuery()
-
-
       if (r.next()) {
-println("f")
-
         val id         = r.getInt("id")
         val dbPassword = r.getString("password")
         val salt       = r.getString("salt")
 
         if (dbPassword == Sha.hash256(salt + password)) {
-println("dbPassword: " + dbPassword)
-println("dbPassword: " + dbPassword)
           updateUserLastAccess(id)
           Some(User(id, username))
         } else {
           None
         }
       } else {
-println("g: username: " + username + " , password: " + password)
         None
       }
     } catch {
@@ -60,7 +66,7 @@ println("g: username: " + username + " , password: " + password)
     var s:   Statement  = null
     var r:   ResultSet  = null
     try {
-      con = cp.getConnection()
+      con = getConnection()
       s   = con.createStatement()
       r   = s.executeQuery("SELECT count(*) AS c FROM memos WHERE is_private=0")
 
@@ -83,7 +89,7 @@ println("g: username: " + username + " , password: " + password)
     var s:   Statement  = null
     var r:   ResultSet  = null
     try {
-      con = cp.getConnection()
+      con = getConnection()
       s   = con.createStatement()
       r   =
         if (page <= 0)
@@ -108,7 +114,7 @@ println("g: username: " + username + " , password: " + password)
     var s:   Statement  = null
     var r:   ResultSet  = null
     try {
-      con = cp.getConnection()
+      con = getConnection()
       s   = con.createStatement()
       r   = s.executeQuery("SELECT * FROM memos WHERE user=" + userId + " ORDER BY id DESC")
       extractMemos(r)
@@ -138,7 +144,7 @@ println("g: username: " + username + " , password: " + password)
       }
 
 
-      con = cp.getConnection()
+      con = getConnection()
       s   = con.prepareStatement("INSERT INTO memos (user, username, title, content, is_private, created_at) VALUES (?, ?, ?, ?, ?, ?)")
       s.setInt      (1, user.id)
       s.setString   (2, user.username)
@@ -168,7 +174,7 @@ println("g: username: " + username + " , password: " + password)
     var con: Connection = null
     var s:   Statement  = null
     try {
-      con = cp.getConnection()
+      con = getConnection()
       s   = con.createStatement()
       s.executeUpdate("UPDATE users SET last_access=now() WHERE id=" + userId)
     } catch {
