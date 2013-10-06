@@ -3,7 +3,7 @@ package isucon3.action
 import xitrum.annotation.GET
 
 @GET("")
-class SiteIndex extends DefaultLayout {
+class Index extends DefaultLayout {
   def execute() {
     respondView()
   }
