@@ -18,6 +18,7 @@ trait DefaultLayout extends Action with SkipCsrfCheck {
   private def getCurrentSession(): MemoSession = {
     session.get("memoSession") match {
       case Some(memoSession) =>
+        response.setHeader("Cache-Control", "private")
         memoSession.asInstanceOf[MemoSession]
 
       case None =>
