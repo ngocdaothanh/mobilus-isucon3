@@ -1,3 +1,6 @@
+package isucon3.view
+
+import scala.xml.Unparsed
 import scalatags._
 import xitrum.Action
 
@@ -54,7 +57,8 @@ html(
       )
     ),
     div.cls("container")(
-      h2("Hello"+ (if (user.isDefined) user.get.username else "") + "!")
+      h2("Hello"+ (if (user.isDefined) user.get.username else "") + "!"),
+      Unparsed(action.renderedView.toString)
     ),
     script.attr("type" -> "text/javascript", "src" -> action.publicUrl("js/jquery.min.js")),
     script.attr("type" -> "text/javascript", "src" -> action.publicUrl("js/bootstrap.min.js"))
