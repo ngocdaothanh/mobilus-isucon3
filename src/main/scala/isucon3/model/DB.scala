@@ -23,18 +23,25 @@ object DB extends Logger {
       s.setString(1, username)
 
       r = s.executeQuery()
+
+
       if (r.next()) {
+println("f")
+
         val id         = r.getInt("id")
         val dbPassword = r.getString("password")
         val salt       = r.getString("salt")
 
-        if (dbPassword == Sha.hash256(salt) + password) {
+        if (dbPassword == Sha.hash256(salt + password)) {
+println("dbPassword: " + dbPassword)
+println("dbPassword: " + dbPassword)
           updateUserLastAccess(id)
           Some(User(id, username))
         } else {
           None
         }
       } else {
+println("g: username: " + username + " , password: " + password)
         None
       }
     } catch {

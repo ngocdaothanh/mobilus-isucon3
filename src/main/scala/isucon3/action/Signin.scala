@@ -17,7 +17,6 @@ object DoSignin {
   val random = new Random(System.currentTimeMillis())
 }
 
-
 @POST("signin")
 class DoSignin extends DefaultLayout {
   def execute() {
