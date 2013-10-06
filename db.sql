@@ -28,4 +28,4 @@ CREATE TABLE `users` (
 
   PRIMARY KEY (`id`)
 );
-CREATE UNIQUE INDEX `users_username_idx` ON `memos`(`username`);
+CREATE UNIQUE INDEX `users_username_idx` ON `users`(`username`);
