@@ -12,20 +12,21 @@ case class MemoSession(user: Option[User], token: String) {
 trait DefaultLayout extends Action {
   protected lazy val memoSession = getCurrentSession()
 
-  override def layout = DefaultLayoutView.render(this, memoSession)
+  override def layout = DefaultLayoutView.render(this, memoSession).toXML
 
   private def getCurrentUser(): Option[User] = {
     null
   }
 
   private def getCurrentSession(): MemoSession = {
-    val memoSession = session("memoSession").asInstanceOf[MemoSession]
-    if (memoSession != null) {
-      memoSession
-    } else {
-      val ret = MemoSession(None, "")
-      session("memoSession") = ret
-      ret
+    session.get("memoSession") match {
+      case Some(memoSession) =>
+        memoSession.asInstanceOf[MemoSession]
+
+      case None =>
+        val ret = MemoSession(None, "")
+        session("memoSession") = ret
+        ret
     }
   }
 }

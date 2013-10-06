@@ -10,8 +10,6 @@ class Index extends DefaultLayout {
   def execute() {
     val total = DB.countPublicMemos()
     val memos = DB.getRecentPublicMemos()
-    IndexView.render(this, 0, total, memos)
-
-    respondView()
+    respondInlineView(IndexView.render(this, 0, total, memos))
   }
 }
