@@ -1,7 +1,7 @@
 package isucon3.action
 
 import org.jboss.netty.handler.codec.http.HttpResponseStatus
-import xitrum.Action
+import xitrum.{Action, SkipCsrfCheck}
 
 import isucon3.model.User
 import isucon3.view.DefaultLayoutView
@@ -10,14 +10,10 @@ case class MemoSession(user: Option[User], token: String) {
   // headers "Cache-Control" => "private"
 }
 
-trait DefaultLayout extends Action {
+trait DefaultLayout extends Action with SkipCsrfCheck {
   protected lazy val memoSession = getCurrentSession()
 
   override def layout = DefaultLayoutView.render(this, memoSession).toXML
-
-  private def getCurrentUser(): Option[User] = {
-    null
-  }
 
   private def getCurrentSession(): MemoSession = {
     session.get("memoSession") match {
