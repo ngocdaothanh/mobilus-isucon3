@@ -15,13 +15,13 @@ p.id("author")(
 
 hr,
 if (older.isDefined)
-  a.id("older").href(action.url[ShowMemo]("memoId" -> older.get))("< older memo")
+  a.id("older").href(action.absUrl[ShowMemo]("memoId" -> older.get))("< older memo")
 else
   ""
 ,
 "|",
 if (newer.isDefined)
-  a.id("older").href(action.url[ShowMemo]("memoId" -> newer.get))("newer memo >")
+  a.id("older").href(action.absUrl[ShowMemo]("memoId" -> newer.get))("newer memo >")
 else
   ""
 ,

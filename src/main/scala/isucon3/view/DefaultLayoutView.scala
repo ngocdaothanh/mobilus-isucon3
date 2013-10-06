@@ -19,7 +19,7 @@ html(
     link.attr("rel" -> "stylesheet", "href" -> action.publicUrl("css/bootstrap.min.css")),
     style("body{padding-top:60px}"),
     link.attr("rel" -> "stylesheet", "href" -> action.publicUrl("css/bootstrap-responsive.min.css")),
-    link.attr("rel" -> "stylesheet", "href" -> action.url[Index])
+    link.attr("rel" -> "stylesheet", "href" -> action.absUrl[Index])
   ),
   body(
     div.cls("navbar navbar-fixed-top")(
@@ -34,15 +34,15 @@ html(
           div.cls("nav-collapse")(
             ul.cls("nav")(
               li(
-                a.attr("href" -> action.url[Index])("Home")
+                a.attr("href" -> action.absUrl[Index])("Home")
               ),
               if (user.isDefined) {
                 Seq(
                   li(
-                    a.attr("href" -> action.url[MyPage])("MyPage")
+                    a.attr("href" -> action.absUrl[MyPage])("MyPage")
                   ),
                   li(
-                    form.action(action.url[Signout]).attr("method" -> "post")(
+                    form.action(action.absUrl[Signout]).attr("method" -> "post")(
                       input.attr("type" -> "hiden", "name" -> "sid", "value" -> session.token),
                       input.attr("type" -> "submit", "value" -> "SignOut")
                     )
@@ -50,7 +50,7 @@ html(
                 )
               } else {
                 li(
-                  a.attr("href" -> action.url[Signin])("SignIn")
+                  a.attr("href" -> action.absUrl[Signin])("SignIn")
                 )
               }
             )
