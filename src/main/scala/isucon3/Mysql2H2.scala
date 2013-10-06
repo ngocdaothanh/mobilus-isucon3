@@ -4,6 +4,9 @@ import java.sql.{Connection, DriverManager, Statement}
 import isucon3.model.DB
 import java.text.SimpleDateFormat
 
+import com.tristanhunt.knockoff.DefaultDiscounter._
+import com.tristanhunt.knockoff._
+
 object Mysql2H2 {
   def main(args: Array[String]) {
     convert()
@@ -44,14 +47,20 @@ object Mysql2H2 {
       val created_at    = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(r.getDate("created_at")).toString()
       val updated_at    = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(r.getDate("updated_at")).toString()
 
+      var contentHtml = ""
+
       //memo["content"].split(/\r?\n/).first
       val contentLine = content.lines
       val title = contentLine.next()
+      contentHtml += toXHTML(knockoff(title)).toString
+      while(contentLine.hasNext){
+        contentHtml += toXHTML(knockoff(contentLine.next())).toString
+      }
 
       var ps = h2.prepareStatement("INSERT INTO memos(id, title, content, is_private, created_at, updated_at, user, username)VALUES(?,?,?,?,?,?,?,?)")
       ps.setInt(1, id)
       ps.setString(2, title)
-      ps.setString(3, content)
+      ps.setString(3, contentHtml)
       ps.setInt(4, isPrivate)
       ps.setString(5, created_at)
       ps.setString(6, updated_at)
@@ -70,7 +79,7 @@ object Mysql2H2 {
     val r = s.executeQuery("SELECT * FROM users ORDER BY id")
     while (r.next()) {
       val id          = r.getInt("id")
-      val username    = r.getString("user")
+      val username    = r.getString("username")
       val password    = r.getString("password")
       val salt        = r.getString("salt")
       val last_access = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(r.getDate("last_access")).toString()
