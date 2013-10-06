@@ -1,4 +1,4 @@
-package quickstart
+package isucon3
 
 import xitrum.Server
 
