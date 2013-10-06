@@ -1,8 +1,7 @@
 package isucon3
 
 import java.sql.{Connection, DriverManager, Statement}
-import scala.util.control.NonFatal
-import org.h2.jdbcx.JdbcConnectionPool
+import isucon3.model.DB
 
 object Mysql2H2 {
   def main(args: Array[String]) {
@@ -15,7 +14,7 @@ object Mysql2H2 {
   def convert() {
     Class.forName("com.mysql.jdbc.Driver")
     val my = DriverManager.getConnection("jdbc:mysql://localhost:3306/isucon3?user=root&password=root&useUnicode=true&characterEncoding=UTF-8")
-    val h2 = JdbcConnectionPool.create("jdbc:h2:./db", "sa", "sa").getConnection()
+    val h2 = DB.cp.getConnection()
 
     resetH2(h2)
     convertMemos(my, h2)
