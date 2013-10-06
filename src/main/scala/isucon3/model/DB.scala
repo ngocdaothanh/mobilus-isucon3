@@ -4,6 +4,9 @@ import java.sql.{Connection, PreparedStatement, ResultSet, Statement, Timestamp}
 import scala.util.control.NonFatal
 import scala.collection.mutable.ArrayBuffer
 
+import com.tristanhunt.knockoff.DefaultDiscounter._
+import com.tristanhunt.knockoff._
+
 import org.h2.jdbcx.JdbcConnectionPool
 import xitrum.Logger
 
@@ -118,8 +121,15 @@ object DB extends Logger {
     var s:   PreparedStatement  = null
     var r:   ResultSet          = null
     try {
-      val title = "TODO"
-      val contentHtml = "TODO"
+      var contentHtml = ""
+
+      val contentLine = content.lines
+      val title = contentLine.next()
+      contentHtml += toXHTML(knockoff(title)).toString
+      while(contentLine.hasNext){
+        contentHtml += toXHTML(knockoff(contentLine.next())).toString
+      }
+
 
       con = cp.getConnection()
       s   = con.prepareStatement("INSERT INTO memos (user, username, title, content, is_private, created_at) VALUES (?, ?, ?, ?, ?, ?)")

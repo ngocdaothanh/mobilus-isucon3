@@ -29,6 +29,8 @@ libraryDependencies += "mysql" % "mysql-connector-java" % "5.1.26"
 
 // xgettext i18n translation key string extractor is a compiler plugin ---------
 
+libraryDependencies += "com.tristanhunt" %% "knockoff" % "0.8.1"
+
 autoCompilerPlugins := true
 
 addCompilerPlugin("tv.cntt" %% "xgettext" % "1.0")
