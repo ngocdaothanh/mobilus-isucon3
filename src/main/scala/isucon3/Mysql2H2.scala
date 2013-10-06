@@ -45,8 +45,8 @@ object Mysql2H2 {
       val username      = r.getString("username")
       val content       = r.getString("content")
       val isPrivate     = r.getInt("is_private")
-      val created_at    = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(r.getDate("created_at")).toString()
-      val updated_at    = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(r.getDate("updated_at")).toString()
+      val created_at    = r.getTimestamp("created_at")
+      val updated_at    = r.getTimestamp("updated_at")
 
       var contentHtml = ""
 
@@ -63,8 +63,8 @@ object Mysql2H2 {
       ps.setString(2, title)
       ps.setString(3, contentHtml)
       ps.setInt(4, isPrivate)
-      ps.setString(5, created_at)
-      ps.setString(6, updated_at)
+      ps.setTimestamp(5, created_at)
+      ps.setTimestamp(6, updated_at)
       ps.setInt(7, user)
       ps.setString(8, username)
       ps.executeUpdate()
@@ -83,14 +83,14 @@ object Mysql2H2 {
       val username    = r.getString("username")
       val password    = r.getString("password")
       val salt        = r.getString("salt")
-      val last_access = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(r.getDate("last_access")).toString()
+      val last_access = r.getTimestamp("last_access")
 
       var ps = h2.prepareStatement("INSERT INTO users(id, username, password, salt, last_access) VALUES (?,?,?,?,?)")
       ps.setInt(1, id)
       ps.setString(2, username)
       ps.setString(3, password)
       ps.setString(4, salt)
-      ps.setString(5, last_access)
+      ps.setTimestamp(5, last_access)
       ps.executeUpdate()
       ps.close()
     }
