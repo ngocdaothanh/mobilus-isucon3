@@ -55,8 +55,8 @@ object DB extends Logger {
         logger.error("signin", e)
         None
     } finally {
-      if (s != null) s.close()
       if (r != null) r.close()
+      if (s != null) s.close()
       if (con != null) con.close()
     }
   }
@@ -78,8 +78,8 @@ object DB extends Logger {
         logger.error("countPublicMemos", e)
         0
     } finally {
-      if (s != null) s.close()
       if (r != null) r.close()
+      if (s != null) s.close()
       if (con != null) con.close()
     }
   }
@@ -103,8 +103,8 @@ object DB extends Logger {
         logger.error("getRecentPublicMemos", e)
         null
     } finally {
-      if (s != null) s.close()
       if (r != null) r.close()
+      if (s != null) s.close()
       if (con != null) con.close()
     }
   }
@@ -123,8 +123,8 @@ object DB extends Logger {
         logger.error("getMyMemos", e)
         null
     } finally {
-      if (s != null) s.close()
       if (r != null) r.close()
+      if (s != null) s.close()
       if (con != null) con.close()
     }
   }
@@ -162,8 +162,8 @@ object DB extends Logger {
         logger.error("addMemo", e)
         0
     } finally {
-      if (s != null) s.close()
       if (r != null) r.close()
+      if (s != null) s.close()
       if (con != null) con.close()
     }
   }
@@ -183,8 +183,8 @@ object DB extends Logger {
         logger.error("getMemo", e)
         null
     } finally {
-      if (s != null) s.close()
       if (r != null) r.close()
+      if (s != null) s.close()
       if (con != null) con.close()
     }
   }
@@ -203,8 +203,8 @@ object DB extends Logger {
         logger.error("getPrevMemoId", e)
         None
     } finally {
-      if (s != null) s.close()
       if (r != null) r.close()
+      if (s != null) s.close()
       if (con != null) con.close()
     }
   }
@@ -223,8 +223,8 @@ object DB extends Logger {
         logger.error("getNextMemoId", e)
         None
     } finally {
-      if (s != null) s.close()
       if (r != null) r.close()
+      if (s != null) s.close()
       if (con != null) con.close()
     }
   }
