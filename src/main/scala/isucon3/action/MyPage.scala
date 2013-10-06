@@ -9,6 +9,6 @@ import isucon3.view.MyPageView
 class MyPage extends DefaultLayout with RequireUser {
   def execute() {
     val memos = DB.getMyMemos(memoSession.user.get.id)
-    respondInlineView(MyPageView.render(this, memos))
+    respondInlineView(MyPageView.render(this, memoSession, memos))
   }
 }
