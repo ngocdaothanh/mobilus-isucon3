@@ -8,7 +8,7 @@ import isucon3.action._
 import isucon3.model.User
 
 object DefaultLayoutView {
-  def render(action: Action, session: MemoSession) = {
+  def render(action: Action, session: MemoSession): Seq[HtmlTag] = {
     val user = session.user
 
     Seq(

@@ -6,7 +6,7 @@ import xitrum.Action
 import isucon3.action.DoSignin
 
 object SigninView {
-  def render(action: Action) = Seq(
+  def render(action: Action): Seq[HtmlTag] = Seq(
 form.action(action.absUrl[DoSignin]).attr("method" -> "post")(
   "username", input.attr("type" -> "text", "name" -> "username", "size" -> "20"),
   br,

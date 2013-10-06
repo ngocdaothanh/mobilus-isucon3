@@ -7,7 +7,7 @@ import isucon3.action.{CreateMemo, ShowMemo, MemoSession}
 import isucon3.model.Memo
 
 object MyPageView {
-  def render(action: Action, memoSession: MemoSession, memos: Seq[Memo]) = Seq(
+  def render(action: Action, memoSession: MemoSession, memos: Seq[Memo]): Seq[HtmlTag] = Seq(
 form.action(action.absUrl[CreateMemo]).attr("method" -> "post")(
   input.attr("type" -> "hidden", "name" -> "sid", "value" -> memoSession.token),
   textarea.name("content"),
