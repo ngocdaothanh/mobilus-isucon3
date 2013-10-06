@@ -21,6 +21,8 @@ libraryDependencies += "tv.cntt" %% "xitrum" % "2.10-SNAPSHOT"
 // Xitrum uses SLF4J, an implementation of SLF4J is needed
 libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.0.13"
 
+libraryDependencies += "com.scalatags" %% "scalatags" % "0.1.4"
+
 // xgettext i18n translation key string extractor is a compiler plugin ---------
 
 autoCompilerPlugins := true
