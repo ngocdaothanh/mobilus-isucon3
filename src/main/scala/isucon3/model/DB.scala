@@ -168,6 +168,67 @@ object DB extends Logger {
     }
   }
 
+  def getMemo(memoId: Int): Option[Memo] = {
+    var con: Connection = null
+    var s:   Statement  = null
+    var r:   ResultSet  = null
+    try {
+      con = getConnection()
+      s   = con.createStatement()
+      r   = s.executeQuery("SELECT * FROM memos WHERE id=" + memoId)
+
+      extractMemos(r).headOption
+    } catch {
+      case NonFatal(e) =>
+        logger.error("getMemo", e)
+        null
+    } finally {
+      if (s != null) s.close()
+      if (r != null) r.close()
+      if (con != null) con.close()
+    }
+  }
+
+  def getPrevMemoId(uid: Int, memoId: Int): Option[Int] = {
+    var con: Connection = null
+    var s:   Statement  = null
+    var r:   ResultSet  = null
+    try {
+      con = getConnection()
+      s   = con.createStatement()
+      r   = s.executeQuery("SELECT * FROM memos WHERE user = " + uid + " id < " + memoId + " ORDER BY id LIMIT 1")
+      extractMemos(r).headOption.map(_.id)
+    } catch {
+      case NonFatal(e) =>
+        logger.error("getPrevMemoId", e)
+        None
+    } finally {
+      if (s != null) s.close()
+      if (r != null) r.close()
+      if (con != null) con.close()
+    }
+  }
+
+  def getNextMemoId(uid: Int, memoId: Int): Option[Int] = {
+    var con: Connection = null
+    var s:   Statement  = null
+    var r:   ResultSet  = null
+    try {
+      con = getConnection()
+      s   = con.createStatement()
+      r   = s.executeQuery("SELECT * FROM memos WHERE user = " + uid + " id > " + memoId + " ORDER BY id LIMIT 1")
+      extractMemos(r).headOption.map(_.id)
+    } catch {
+      case NonFatal(e) =>
+        logger.error("getNextMemoId", e)
+        None
+    } finally {
+      if (s != null) s.close()
+      if (r != null) r.close()
+      if (con != null) con.close()
+    }
+  }
+
   //----------------------------------------------------------------------------
 
   private def updateUserLastAccess(userId: Int) {
@@ -190,11 +251,12 @@ object DB extends Logger {
     val ret = ArrayBuffer[Memo]()
     while (r.next()) {
       val id          = r.getInt("id")
-      val username    = r.getString("username")
       val title       = r.getString("title")
       val contentHtml = r.getString("content")
       val createdAt   = r.getTime("created_at").toString
-      ret.append(Memo(id, username, false, title, contentHtml, createdAt))
+      val uid         = r.getInt("user")
+      val username    = r.getString("username")
+      ret.append(Memo(id, false, title, contentHtml, createdAt, uid, username))
     }
     ret
   }
