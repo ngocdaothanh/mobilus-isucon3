@@ -27,6 +27,20 @@ libraryDependencies += "com.h2database" % "h2" % "1.3.173"
 
 libraryDependencies += "mysql" % "mysql-connector-java" % "5.1.26"
 
+// By default, version 2.10.0 of the libs below is used!!! ---------------------
+
+libraryDependencies <+= scalaVersion { sv =>
+  "org.scala-lang" % "scala-compiler" % sv
+}
+
+libraryDependencies <+= scalaVersion { sv =>
+  "org.scala-lang" % "scala-reflect" % sv
+}
+
+libraryDependencies <+= scalaVersion { sv =>
+  "org.scala-lang" % "scalap" % sv
+}
+
 // xgettext i18n translation key string extractor is a compiler plugin ---------
 
 libraryDependencies += "com.tristanhunt" %% "knockoff" % "0.8.1"
