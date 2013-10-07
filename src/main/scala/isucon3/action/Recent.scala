@@ -1,13 +1,12 @@
 package isucon3.action
 
 import org.jboss.netty.handler.codec.http.HttpResponseStatus
-import xitrum.annotation.GET
+import xitrum.annotation.{GET, CacheActionDay}
 
-import isucon3.model.DB
 import isucon3.view.IndexView
 
 @GET("recent/:page")
-@xitrum.annotation.CacheActionDay(1)
+@CacheActionDay(1)
 class Recent extends DefaultLayout {
   def execute() {
     val page  = param[Int]("page")

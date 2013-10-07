@@ -1,13 +1,13 @@
 package isucon3.action
 
 import java.util.Random
-import xitrum.annotation.{GET, POST}
+import xitrum.annotation.{GET, POST, CacheActionDay}
 
-import isucon3.model.{DB, Sha}
+import isucon3.model.Sha
 import isucon3.view.SigninView
 
 @GET("signin")
-@xitrum.annotation.CacheActionDay(1)
+@CacheActionDay(1)
 class Signin extends DefaultLayout {
   def execute() {
     respondInlineView(SigninView.render(this))

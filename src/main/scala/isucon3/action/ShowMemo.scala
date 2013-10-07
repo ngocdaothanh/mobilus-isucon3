@@ -1,9 +1,8 @@
 package isucon3.action
 
 import org.jboss.netty.handler.codec.http.HttpResponseStatus
-import xitrum.annotation.GET
+import xitrum.annotation.{GET, CacheActionDay}
 
-import isucon3.model.DB
 import isucon3.view.ShowMemoView
 
 @GET("memo/:memoId")

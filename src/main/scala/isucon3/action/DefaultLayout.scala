@@ -1,7 +1,7 @@
 package isucon3.action
 
 import org.jboss.netty.handler.codec.http.HttpResponseStatus
-import xitrum.{Action, SkipCsrfCheck}
+import xitrum.{Action, Cache, SkipCsrfCheck}
 
 import isucon3.model.User
 import isucon3.view.DefaultLayoutView
@@ -14,6 +14,14 @@ trait DefaultLayout extends Action with SkipCsrfCheck {
   protected val db = isucon3.model.DBH2
 
   protected lazy val memoSession = getCurrentSession()
+
+  // Only actions whose views don't use MemoSession can use action cache
+  protected def removeActionCache() {
+    Cache.removeAction(classOf[Index])
+    Cache.removeAction(classOf[Recent])
+    Cache.removeAction(classOf[ShowMemo])
+    Cache.removeAction(classOf[Signin])
+  }
 
   override def layout = DefaultLayoutView.render(this, memoSession).toXML
 

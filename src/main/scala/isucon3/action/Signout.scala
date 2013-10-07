@@ -1,6 +1,5 @@
 package isucon3.action
 
-import xitrum.Action
 import xitrum.annotation.POST
 
 @POST("signout")
