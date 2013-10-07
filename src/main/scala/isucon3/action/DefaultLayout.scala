@@ -11,6 +11,8 @@ case class MemoSession(user: Option[User], token: String) {
 }
 
 trait DefaultLayout extends Action with SkipCsrfCheck {
+  protected val db = isucon3.model.DBH2
+
   protected lazy val memoSession = getCurrentSession()
 
   override def layout = DefaultLayoutView.render(this, memoSession).toXML

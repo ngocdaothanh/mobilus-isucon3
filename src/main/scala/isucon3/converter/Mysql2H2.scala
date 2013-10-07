@@ -1,7 +1,7 @@
-package isucon3
+package isucon3.converter
 
 import java.sql.{Connection, DriverManager, Statement}
-import isucon3.model.DB
+import isucon3.model.DBH2
 import java.text.SimpleDateFormat
 
 import com.tristanhunt.knockoff.DefaultDiscounter._
@@ -18,7 +18,7 @@ object Mysql2H2 {
   def convert() {
     Class.forName("com.mysql.jdbc.Driver")
     val my = DriverManager.getConnection("jdbc:mysql://localhost:3306/isucon?user=root&password=root&useUnicode=true&characterEncoding=UTF-8")
-    val h2 = DB.cp.getConnection()
+    val h2 = DBH2.getConnection()
 
     resetH2(h2)
     convertMemos(my, h2)

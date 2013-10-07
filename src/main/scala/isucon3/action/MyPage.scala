@@ -9,7 +9,7 @@ import isucon3.view.MyPageView
 @xitrum.annotation.CacheActionDay(1)
 class MyPage extends DefaultLayout with RequireUser {
   def execute() {
-    val memos = DB.getMyMemos(memoSession.user.get.id)
+    val memos = db.getMyMemos(memoSession.user.get.id)
     respondInlineView(MyPageView.render(this, memoSession, memos))
   }
 }

@@ -11,7 +11,7 @@ import isucon3.view.ShowMemoView
 class ShowMemo extends DefaultLayout {
   def execute() {
     val memoId = param[Int]("memoId")
-    DB.getMemo(memoId) match {
+    db.getMemo(memoId) match {
       case None =>
         response.setStatus(HttpResponseStatus.NOT_FOUND)
         respondText("404 Not Found")
@@ -23,8 +23,8 @@ class ShowMemo extends DefaultLayout {
           return
         }
 
-        val prev = DB.getPrevMemoId(memo.uid, memoId)
-        val next = DB.getNextMemoId(memo.uid, memoId)
+        val prev = db.getPrevMemoId(memo.uid, memoId)
+        val next = db.getNextMemoId(memo.uid, memoId)
         respondInlineView(ShowMemoView.render(this, memo, prev, next))
     }
   }

@@ -9,8 +9,8 @@ import xitrum.annotation.CachePageDay
 @xitrum.annotation.CacheActionDay(1)
 class Index extends DefaultLayout {
   def execute() {
-    val total = DB.countPublicMemos()
-    val memos = DB.getRecentPublicMemos(0)
+    val total = db.countPublicMemos()
+    val memos = db.getRecentPublicMemos(0)
     respondInlineView(IndexView.render(this, 0, total, memos))
   }
 }

@@ -24,7 +24,7 @@ class DoSignin extends DefaultLayout {
     val username = param("username")
     val password = param("password")
 
-    DB.signin(username, password) match {
+    db.signin(username, password) match {
       case None =>
         respondInlineView(SigninView.render(this))
 

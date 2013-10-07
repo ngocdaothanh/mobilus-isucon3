@@ -15,7 +15,7 @@ class CreateMemo extends DefaultLayout with RequireUser with AntiCsrf {
       else
         false
 
-    val memoId = DB.addMemo(memoSession.user.get, content, isPrivate)
+    val memoId = db.addMemo(memoSession.user.get, content, isPrivate)
 
     Cache.removeAction(classOf[Index])
     Cache.removeAction(classOf[MyPage])

@@ -11,8 +11,8 @@ import isucon3.view.IndexView
 class Recent extends DefaultLayout {
   def execute() {
     val page  = param[Int]("page")
-    val total = DB.countPublicMemos()
-    val memos = DB.getRecentPublicMemos(page)
+    val total = db.countPublicMemos()
+    val memos = db.getRecentPublicMemos(page)
 
     if (memos.isEmpty) {
       response.setStatus(HttpResponseStatus.NOT_FOUND)
